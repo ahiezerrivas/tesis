@@ -1,0 +1,24 @@
+extends layout
+
+block content
+  
+
+  
+  div(class="loginbox")
+    img(src="/images/images.png", alt="" class="avatar")
+    //- p= Iniciar sesión
+    form(action="http://localhost:3000/", method="post")
+      //- h1=Iniciar Sesión
+      p=Usuario
+      input(type="text" name="Nombre" id="nombre" placeholder="Nombre")
+
+      
+      input(type="password", name="password" id="password" placeholder="Contraseña")
+
+      input(type="submit" value="Inciar Sesión")
+
+      if message !=null
+       p=message
+  
+
+ 

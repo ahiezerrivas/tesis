@@ -1,0 +1,74 @@
+extends layout
+
+block content
+    header
+      div(class="header-right")
+        nav
+          ul
+            li
+              a(href="http://localhost:3000/")= 'cerrar sesion'
+            li
+              a(href="http://localhost:3000/sesion")= 'Incio'
+
+
+
+
+
+    div(class="items")
+      div(class="cuadrado")
+        h1 Bucar Video
+        form(action="http://localhost:3000/sesion", method="post")
+          input(type="text" name="Video" id="Video" placeholder="Video")
+          input(type="submit" value="Buscar")
+
+
+      if video !=null
+        div(class="cuadrado-video")
+         
+        
+
+         video#Video2(src='http://localhost:3000/video/#{video[0].Url}', alt='',controls='', loop='')
+
+
+      
+      
+      
+      if message !=null
+        div(class="cuadrado-video")
+          
+          h1=message
+          h1=Video
+
+      if columna !=null
+        div(class="cuadrado")
+         
+          -var name=columna[0].Nombre
+          h1=name
+          
+          h1=columna[0].Apellido
+          h1=columna[0].Numerotelefono
+
+
+      if columna_departamento !=null
+
+        div(class="cuadrado")
+          h1 Departamento
+          h1=columna_departamento[0].Nombre
+          h1 Descripción
+          h1=columna_departamento[0].Descripcion
+
+      if cargo !=null
+
+        div(class="cuadrado")
+          h1 Cargo
+          h1=cargo[0].Nombre
+          
+      
+
+        
+      
+
+  
+
+    
+    
