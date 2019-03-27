@@ -6,17 +6,17 @@ var controllers = require('.././controllers');
 
 /* GET home page. */
 router.get('/', controllers.getUsuarios.getUsuarios);
-// router.post('/', controllers.PostLogin.PostLogin);
+router.post('/', controllers.PostLogin.PostLogin);
 
 
-// var newLocal = '/sesion';
+var newLocal = '/sesion';
 
 // /* GET sesion page. */
-// router.get(newLocal, controllers.PostLogin.sesion);
+router.get(newLocal, controllers.PostLogin.sesion);
 
 
-// router.post('/sesion', controllers.video.Video);
-// router.get('/sesion/video', controllers.video.getVideo );
+router.post('/sesion', controllers.video.Video);
+router.get('/sesion/video', controllers.video.getVideo );
 
 
 // router.get('/sesion/videonotfound', controllers.video.noVideo);
@@ -26,4 +26,4 @@ router.get('/', controllers.getUsuarios.getUsuarios);
 
 
 module.exports = router;
- 
+    
