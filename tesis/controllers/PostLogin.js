@@ -14,7 +14,7 @@ var UsuariosId = null;
 var connection = mysql.createConnection({
     host: 'localhost',
     user: 'root',
-    password: '',
+    password:'',
     database: 'proyecto'
 });
 
@@ -24,7 +24,7 @@ connection.connect();
 exports.PostLogin = (req, res) => {
           
 
-        var Nombre = req.body.Nombre;
+        var  Nombre = req.body.Nombre;
 
         var Contraseña = req.body.password;
 
@@ -32,13 +32,7 @@ exports.PostLogin = (req, res) => {
 
         message = "Profile not found!";
 
-      
-            
-        
-        
-
-        connection.query("SELECT * FROM usuarios WHERE Nombre =? AND Contraseña =?", [Nombre, Contraseña], function (err, rows, fields)
-       
+        connection.query("SELECT * FROM usuarios WHERE Nombre =? AND Contraseña=?", [Nombre, Contraseña], function (err, rows, fields)
          {
            if (err) throw err;
 
@@ -48,14 +42,15 @@ exports.PostLogin = (req, res) => {
                UsuariosId= columna[0].idUsuarios
                departamento=columna[0].Departamento_idDepartamento
 
-            //    console.log(rows);
+               console.log(columna);
 
-            //    console.log("se encontro");
+               console.log("se encontro");
              
 
-            //    buscardepartamento();
-            //    buscarCargo();
-               res.redirect('/sesion');
+               buscardepartamento();
+               buscarCargo();
+               buscarvideo();
+               res.redirect('/sesion/'+Nombre);
                
                
            } else {
@@ -66,15 +61,14 @@ exports.PostLogin = (req, res) => {
                });
            }
 
-        //    connection.end();
+        
          })
-        console.log(Nombre);
-        console.log(Contraseña);
+        
     }
 
 
 
-// buscardepartamento();
+
 
 function buscardepartamento() {
     
@@ -85,7 +79,7 @@ function buscardepartamento() {
    
    
         console.log(columna_departamento);
-        // console.log(`el cargo es ${cargo}`);
+        
    
     });    
 
@@ -103,7 +97,7 @@ function buscarCargo() {
 
 
         console.log(cargo);
-        // console.log(`el cargo es ${cargo}`);
+        
 
     });
 
@@ -111,28 +105,61 @@ function buscarCargo() {
 
 
 
-exports.sesion = (req, res) => {
+
+  
+    exports.sesion = (req, res) => {
 
     
+        
+    var Nombre= columna[0].Nombre;
+    console.log(Nombre)
    
     
+    buscarvideo();
+   
+   
+
     res.render('sesion',{
         columna:columna,
         columna_departamento:columna_departamento,
-        cargo:cargo
+        cargo:cargo,
+        nombre:nombres
     } );
     
-    
+   
 }
-,
+
+
+
+var nombres = null;
+
+function buscarvideo() {
+
+    var sql = 'SELECT `Nombre` from videosencontrados';
+
+    var buscar = connection.query(sql, function buscar(err, rows, fields) {
+        if (err) throw err;
+        if (rows.length > 0) {
+            nombres = rows;
+            // console.log(nombres);
+
+        }
+
+
+    });
+}
+
 exports.enviar = (objeto) => {
     
      objeto.make=columna;
-    
+        
+     
 }
-,
-exports.cargo =()=>{
-   
 
-    
-}
+    , exports.nombres = (objeto) => {
+
+        objeto.make = nombres;
+
+
+    }
+

@@ -1,0 +1,35 @@
+extends layout
+
+block content
+
+        -var nameup=columna[0].Nombre
+        header
+                div(class="header-right")
+                        nav
+                                ul
+                                        li
+                                          a(href="http://localhost:3000/")= 'Cerrar sesion'
+                                        li
+                                          a(href="http://localhost:3000/sesion/"+nameup)= 'Incio'
+                                        li
+                                          a(href="http://localhost:3000/sesion/"+nameup+"/Subir")= 'Subir'
+        
+        div(class='cuadrado-subir')
+         form(action="http://localhost:3000/sesion/"+nameup+"/Subir", method="post" encType="multipart/form-data")
+            label Subir Video 
+            //- input(type="text" name="Nombre" id="nombre" placeholder="Nombre")
+            input(type="file", name="sampleFile")
+            input(type="submit" value="Subir")
+            
+        //- if message!=null
+        //-   div(class='cuadrado')
+        //-     h1=message
+
+        script.
+          var string=!{JSON.stringify(message)}
+          if (string !=undefined)
+            alert(string)
+
+
+            
+

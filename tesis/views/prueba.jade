@@ -1,0 +1,112 @@
+extends layout
+
+block content
+
+        -var nameup=columna[0].Nombre
+        header
+                div(class="header-right")
+                        nav
+                                ul
+                                        li
+                                                a(href="http://localhost:3000/")= 'Cerrar sesion'
+                                        li
+                                                a(href="http://localhost:3000/sesion/"+nameup)= 'Incio'
+                                        li
+                                                a(href="http://localhost:3000/sesion/"+nameup+"/Subir")= 'Subir'
+                                                  .info Aqui podras subir un video a nuestra base de datos 
+
+
+
+
+        div(class="items")
+                div(class="cuadrado-form")
+                        h1 Sistema Traductor de lenguaje de señas
+                        form(action="http://localhost:3000/sesion/"+nameup, method="post")
+                                if nombre !=null
+                                        select(name="Video" id="Video" data-placeholder="Elige varias palabaras" class="sel" multiple style="width:600px")
+                                                for item in nombre
+                                                        option=item.Nombre
+                                input(type="submit" value="Buscar")
+
+
+
+                div(class="cuadrado-video")
+                        label(id='info')
+                        video(class='Video2' id='reproductor'  )
+                div(class="aparece" id="aparece")
+                        
+                        input(type="submit" value="Repetir" class="aparece-boton hide" id="aparece-boton"  )
+
+       
+        script.
+                $(document).ready(function() {
+                         $('.sel').chosen();
+
+                });
+
+                var string=!{JSON.stringify(prueba)}
+                
+               
+
+                
+                
+                
+
+                window.onload = function playlist(){
+                         var aparece = document.getElementById('aparece');
+                         var apareceBoton = document.getElementById('aparece-boton');
+                                
+                        function aparecer(){
+                                        aparece.classList.add('active');
+                        }
+                        function aparecerBoton(){
+                                        apareceBoton.classList.add('active');
+                        }
+                        function desaparecerBoton(){
+                                        apareceBoton.classList.remove('active');
+                        }
+                        
+                        var reproductor = document.getElementById("reproductor");
+                        
+                        info = document.getElementById("info");
+                
+                        info.innerHTML = "Vídeo: " + string[0];
+                        reproductor.src ="/video/"+ string[0] + ".mp4";
+                      
+                        
+                       
+
+                                reproductor.play();
+                        $('#reproductor').bind;$(this).parent().fadeIn();
+                        desaparecerBoton();
+                        reproductor.addEventListener("ended", function() {
+                                //- $('#reproductor').bind;$(this).parent().fadeOut()
+		                        
+                        var nombreActual = info.innerHTML.split(": ")[1];
+                        var actual = string.indexOf(nombreActual);
+
+                        
+
+                        if (actual == string.length - 1){
+                                //-  reproductor.pause();
+                                  aparecer();
+                                  aparecerBoton();
+                                  apareceBoton.addEventListener('click', ()=>{
+                                    playlist();      
+                                  });
+                                
+                        }
+                        else{
+                        desaparecerBoton();
+                        this.src = (actual == string.length - 1 ? "/video/"+string[0] :"/video/"+ string[actual + 1]) + ".mp4";
+                        info.innerHTML = "Vídeo: " + string[actual + 1];
+                        this.play();
+                        $('#reproductor').bind;$(this).parent().fadeIn()
+                        }
+                }, false);
+                                
+
+
+                        
+                }
+

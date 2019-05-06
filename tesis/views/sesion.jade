@@ -1,34 +1,41 @@
 extends layout
 
 block content
+    -var nameup=columna[0].Nombre
     header
       div(class="header-right")
         nav
           ul
             li
-              a(href="http://localhost:3000/")= 'cerrar sesion'
+              a(href="http://localhost:3000/")= 'Cerrar sesion'
             li
-              a(href="http://localhost:3000/sesion")= 'Incio'
-
+              a(href="http://localhost:3000/sesion/"+nameup)= 'Incio'
+            li
+              a( href="http://localhost:3000/sesion/"+nameup+"/Subir")= 'Subir'
+               .info Aqui podras subir un video a nuestra base de datos
+              
 
 
 
 
     div(class="items")
-      div(class="cuadrado")
-        h1 Bucar Video
-        form(action="http://localhost:3000/sesion", method="post")
-          input(type="text" name="Video" id="Video" placeholder="Video")
+      div(class="cuadrado-form")
+        h1 Sistema Traductor de lenguaje de señas
+        form(action="http://localhost:3000/sesion/"+nameup, method="post")
+          if nombre !=null
+            select(name="Video"  data-placeholder="Elige varias palabras" id="Video" class="sel" multiple style="width:600px  ")
+              for item in nombre
+                option=item.Nombre
           input(type="submit" value="Buscar")
 
 
-      if video !=null
+      if prueba !=null
         div(class="cuadrado-video")
          
         
-
-         video#Video2(src='http://localhost:3000/video/#{video[0].Url}', alt='',controls='', loop='')
-
+         label(id='info')
+         video(id='reproductor Video2')
+        
 
       
       
@@ -39,32 +46,43 @@ block content
           h1=message
           h1=Video
 
-      if columna !=null
-        div(class="cuadrado")
+      //- if nombre !=null
+      //-  div(class="cuadrado-video")
+      //-   ol
+      //-     for item in nombre
+      //-       li=item.Nombre
+             
+
+      //- if columna !=null
+      //-   div(class="cuadrado")
          
-          -var name=columna[0].Nombre
-          h1=name
+      //-     -var name=columna[0].Nombre
+      //-     h1=name
           
-          h1=columna[0].Apellido
-          h1=columna[0].Numerotelefono
+      //-     h1=columna[0].Apellido
+      //-     h1=columna[0].Numerotelefono
 
 
-      if columna_departamento !=null
+      //- if columna_departamento !=null
 
-        div(class="cuadrado")
-          h1 Departamento
-          h1=columna_departamento[0].Nombre
-          h1 Descripción
-          h1=columna_departamento[0].Descripcion
+      //-   div(class="cuadrado")
+      //-     h1 Departamento
+      //-     h1=columna_departamento[0].Nombre
+      //-     h1 Descripción
+      //-     h1=columna_departamento[0].Descripcion
 
-      if cargo !=null
+      //- if cargo !=null
 
-        div(class="cuadrado")
-          h1 Cargo
-          h1=cargo[0].Nombre
-          
-      
+      //-   div(class="cuadrado")
+      //-     h1 Cargo
+      //-     h1=cargo[0].Nombre
+      script.
+        $(document).ready(function() {
+          $('.sel').chosen({no_results_text:"Oops, no esta esa palabra"});
 
+        });
+
+               
         
       
 

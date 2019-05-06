@@ -24,126 +24,133 @@ connection.connect();
 
 var Video=null
 
-exports.Video = (req, res) => {
-  
-   
+var arreglo= null
 
-    Video = req.body.Video;
-    // console.log(Video);
-   
-    connection.query('SELECT * FROM videosencontrados WHERE Nombre =? ', [Video], function (err, rows, fields) {
+var palabra=new Array();
+
+var arreglo2 = [];
+
+ 
+
+var nombres=null;
+
+function buscarvideo() {
+
+    var sql = 'SELECT `Nombre` from videosencontrados';
+
+    var buscar = connection.query(sql, function buscar(err, rows, fields) {
         if (err) throw err;
-
         if (rows.length > 0) {
+            nombres = rows; 
+            // console.log(nombres);
 
-            video=rows;
-            console.log("se encontro");
-            res.redirect('/sesion/video');
-            message=null;
-        } else {
-
-            message = 'No se encontro el video';
-
-            video=null;
-
-            console.log("no se encontro");
-            
-            res.redirect('/sesion/videonotfound');
-            
         }
-        
-        console.log(video)
+
+
     });
 }
-
-
-    
-
-    exports.getVideo = (req, res) => {
-
-
-        var mycar= {make:"honda"},
-            y;
-        ;
-
-
-        PostLogin.enviar(mycar);
-
-        y=mycar.make;
+    exports.Video = (req, res) => {
         
-
-        
-        var idus = y[0].idUsuarios;
-
-        var idvi = video[0].idvideosencontrados;
-
-
-        var sql = "INSERT INTO videosvistos (videosencontrados_idvideosencontrados, Usuarios_idUsuarios) VALUES ?";
-
-
-        var values = [
-            [idvi, idus]
-        ];
-
-        var vistos= null;
-
-        connection.query(sql, [values], function (err, rows,fields) {
-          if(err) throw err;
-          
-            
-
-          
-        });
-
-        // var vistosnum = vistos[0].videosencontrados_idvideosencontrados;
-
-    
-        // var mostrar;
-        // connection.query('SELECT * FROM videosencontrados WHERE idvideosencontrados =?', [vistosnum], function (err, rows, fields) {
-        //     if (err) throw err;
-
-        //     mostrar=rows;
-
-        // });
-        // console.log(mostrar);
-        
-        res.render('sesion', { video: video, message: message,}, );
-
-}
-
-exports.noVideo = (req, res) => {
+   
+     buscarvideo();
+    Video = req.body.Video;
+    arreglo =Video;
+    console.log(arreglo);
+    // let arreglo2= new Array();
 
     var mycar = { make: "honda" },
-        y;
-    ;
+        columna;
+    
+    
+
+    PostLogin.enviar(mycar);
+
+    columna = mycar.make;
+
+   
+
+    //    for (let i = 0; i < Video.length; i++) {
+    //       let resultado= nombres.find(buscar => buscar.Nombre === Video[i]);
+    //       if(resultado !=null)
+    //       {
+    //           console.log(`Se encontro ${Video[i]}`);
+    //           arreglo2[i]=Video[i];
+    //       } 
+    //       else{
+    //           console.log(`No se encontro ${Video[i]}`);
+    //           arreglo2[i] = Video[i];
+    //       }
+    //    }       
+   
+
+
+    
+    
+
+    
+    
+    
+    res.render('prueba',{prueba:arreglo,columna:columna, nombre:nombres});
+    
+    
+   
+}
+
+
+exports.getSubir = (req, res) => {
+    var mycar = { make: "honda" },
+        columna;
+
 
 
     PostLogin.enviar(mycar);
 
-    y = mycar.make;
-
-    var idus = y[0].idUsuarios;
+    columna = mycar.make;
 
 
-    const hoy = new Date()
-
-    var sql = "INSERT INTO videonoencontrados (Nombre, fecha, Usuarios_idUsuarios) VALUES ?";
+    res.render('Subir',{columna:columna});
 
 
-    var values = [
-        [Video, hoy, idus]
-    ];
+}
+    
+exports.postSubir = (req, res) => {
 
-    connection.query(sql, [values], function (err, result) {
-        if (err) throw err;
+    var mycar = { make: "honda" },
+        columna;
 
 
-        
 
+    PostLogin.enviar(mycar);
+
+    columna = mycar.make;
+    if (!req.files)
+        return res.status(400).send('No files were uploaded.');
+
+    let sampleFile = req.files.sampleFile;
+    let translation = sampleFile.name;
+    if (translation.toLowerCase().endsWith('.mp4')) {
+        translation = translation.slice(0, -4)
+    }
+    
+    let Nombre = translation;
+    console.log(Nombre)
+    var sql = "INSERT INTO `videosencontrados`(`Nombre` ,`Url`) VALUES ('" + Nombre + "','" + sampleFile.name + "')";
+
+
+    sampleFile.mv('public/video/' + sampleFile.name, function (err) {
+        if (err)
+            return res.status(500).send(err);
+
+        var query = connection.query(sql, function (err, result) {
+            if (err) throw err;
+
+            console.log("Se guardo");
+
+        });
+        res.render('Subir', { message: 'Se Guardo ', columna:columna });
     });
 
-    
-
-    res.render('sesion', { video: video, message: message, Video:Video } );
 }
+
+   
 

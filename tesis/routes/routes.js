@@ -2,28 +2,25 @@ var express = require('express');
 var router = express.Router();
 
 var controllers = require('.././controllers');
-// var Nombre = require('.././controllers/PostLogin');
 
-/* GET home page. */
+/* GET Home page. */
 router.get('/', controllers.getUsuarios.getUsuarios);
 router.post('/', controllers.PostLogin.PostLogin);
 
-
-var newLocal = '/sesion';
-
-// /* GET sesion page. */
-router.get(newLocal, controllers.PostLogin.sesion);
+/* GET Sesion page. */
+router.get('/sesion/:Nombre', controllers.PostLogin.sesion)
+router.post('/sesion/:Nombre', controllers.video.Video);
 
 
-router.post('/sesion', controllers.video.Video);
-router.get('/sesion/video', controllers.video.getVideo );
+/* GET Upload page. */
+router.get('/sesion/:Nombre/Subir', controllers.video.getSubir);
+router.post('/sesion/:Nombre/Subir', controllers.video.postSubir);
 
 
-// router.get('/sesion/videonotfound', controllers.video.noVideo);
 
 
 
 
 
 module.exports = router;
-    
+ 
